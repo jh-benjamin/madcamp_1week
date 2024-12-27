@@ -1,6 +1,7 @@
 package com.example.madcamp_week1.ui.dashboard
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,6 +52,26 @@ class DashboardFragment : Fragment() {
         dialogView.findViewById<TextView>(R.id.dialog_email).text = "이메일: ${person.email}"
         // dialogView.findViewById<TextView>(R.id.dialog_attendance).text = "출석률: ${person.attendance}%"
 
+        // 정당 로고 설정
+        val partyLogoView = dialogView.findViewById<ImageView>(R.id.dialog_party_logo)
+        val partyLogoResId = getPartyLogo(person.party)
+        if (partyLogoResId == null) {
+            partyLogoView.visibility = View.GONE
+        } else{
+            partyLogoView.visibility = View.VISIBLE
+            partyLogoView.setImageResource(partyLogoResId)
+        }
+
         dialog.show()
+    }
+
+    private fun getPartyLogo(partyName: String): Int?{
+        return when(partyName){
+            "더불어민주당" -> R.drawable.minjudang
+            "국민의힘" -> R.drawable.powerofkorea
+            "조국혁신당" -> R.drawable.rebuildingkorea
+            "개혁신당" -> R.drawable.reformkorea
+            else -> null
+        }
     }
 }

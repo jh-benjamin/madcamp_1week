@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_background"
     android:padding="16dp">
 
-    <!-- 이미지 -->
+    <!-- 얼굴 이미지 -->
     <ImageView
         android:id="@+id/dialog_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="fitCenter"
-        android:contentDescription="이미지" />
+        android:contentDescription="얼굴_사진"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 정당 로고 -->
+    <ImageView
+        android:id="@+id/dialog_party_logo"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:contentDescription="정당_사진"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop= "0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp" />
 
     <!-- 이름 -->
     <TextView
@@ -24,7 +39,10 @@
         android:textStyle="bold"
         android:textColor="#000000"
         android:gravity="center"
-        android:text="이름" />
+        android:text="이름"
+        app:layout_constraintTop_toBottomOf="@id/dialog_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 정당 -->
     <TextView
@@ -34,7 +52,11 @@
         android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:textColor="#333333"
-        android:text="정당 : 더불어민주당" />
+        android:gravity="center"
+        android:text="정당 : 더불어민주당"
+        app:layout_constraintTop_toBottomOf="@id/dialog_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 전화번호 -->
     <TextView
@@ -44,7 +66,11 @@
         android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:textColor="#333333"
-        android:text="전화번호: 010-1234-5678" />
+        android:gravity="center"
+        android:text="전화번호: 010-1234-5678"
+        app:layout_constraintTop_toBottomOf="@id/dialog_party"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 사무실 위치 -->
     <TextView
@@ -54,7 +80,11 @@
         android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:textColor="#333333"
-        android:text="사무실: 서울특별시 강남구" />
+        android:gravity="center"
+        android:text="사무실: 서울특별시 강남구"
+        app:layout_constraintTop_toBottomOf="@id/dialog_tel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 이메일 -->
     <TextView
@@ -64,16 +94,10 @@
         android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:textColor="#333333"
-        android:text="이메일: example@example.com" />
+        android:gravity="center"
+        android:text="이메일: example@example.com"
+        app:layout_constraintTop_toBottomOf="@id/dialog_office"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 출석률 -->
-<!--    <TextView-->
-<!--        android:id="@+id/dialog_attendance"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="4dp"-->
-<!--        android:textSize="16sp"-->
-<!--        android:textColor="#333333"-->
-<!--        android:text="출석률: 90%" />-->
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
