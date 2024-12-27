@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 이미지 -->
+    <ImageView
+        android:id="@+id/dialog_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="이미지" />
+
+    <!-- 이름 -->
+    <TextView
+        android:id="@+id/dialog_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:text="이름" />
+
+    <!-- 전화번호 -->
+    <TextView
+        android:id="@+id/dialog_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:text="전화번호: 010-1234-5678" />
+
+    <!-- 사무실 위치 -->
+    <TextView
+        android:id="@+id/dialog_office"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:text="사무실: 서울특별시 강남구" />
+
+    <!-- 이메일 -->
+    <TextView
+        android:id="@+id/dialog_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:text="이메일: example@example.com" />
+
+    <!-- 출석률 -->
+    <TextView
+        android:id="@+id/dialog_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:text="출석률: 90%" />
+
+</LinearLayout>

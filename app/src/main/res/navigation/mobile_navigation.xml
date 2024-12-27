@@ -23,9 +23,9 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
-    <fragment
-        android:id="@+id/navigation_noname"
-        android:name="com.example.madcamp_week1.ui.dashboard.DashboardFragment"
-        android:label="@string/title_noname"
-        tools:layout="@layout/fragment_noname" />
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_noname"-->
+<!--        android:name="com.example.madcamp_week1.ui.dashboard.DashboardFragment"-->
+<!--        android:label="@string/title_noname"-->
+<!--        tools:layout="@layout/fragment_noname" />-->
 </navigation>
