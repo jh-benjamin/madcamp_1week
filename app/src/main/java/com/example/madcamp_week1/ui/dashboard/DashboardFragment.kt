@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -47,7 +48,7 @@ class DashboardFragment : Fragment() {
         dialogView.findViewById<TextView>(R.id.dialog_tel).text = "전화번호: ${person.tel}"
         dialogView.findViewById<TextView>(R.id.dialog_office).text = "사무실: ${person.office}"
         dialogView.findViewById<TextView>(R.id.dialog_email).text = "이메일: ${person.email}"
-        dialogView.findViewById<TextView>(R.id.dialog_attendance).text = "출석률: ${person.attendance}%"
+        // dialogView.findViewById<TextView>(R.id.dialog_attendance).text = "출석률: ${person.attendance}%"
 
         dialog.show()
     }
