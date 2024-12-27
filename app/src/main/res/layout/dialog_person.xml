@@ -26,6 +26,16 @@
         android:gravity="center"
         android:text="이름" />
 
+    <!-- 정당 -->
+    <TextView
+        android:id="@+id/dialog_party"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:text="정당 : 더불어민주당" />
+
     <!-- 전화번호 -->
     <TextView
         android:id="@+id/dialog_tel"

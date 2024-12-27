@@ -43,6 +43,7 @@ class DashboardFragment : Fragment() {
         // 다이얼로그에 Person 데이터 바인딩
         dialogView.findViewById<ImageView>(R.id.dialog_image).setImageResource(person.imageResId)
         dialogView.findViewById<TextView>(R.id.dialog_name).text = person.name
+        dialogView.findViewById<TextView>(R.id.dialog_party).text = "정당: ${person.party}"
         dialogView.findViewById<TextView>(R.id.dialog_tel).text = "전화번호: ${person.tel}"
         dialogView.findViewById<TextView>(R.id.dialog_office).text = "사무실: ${person.office}"
         dialogView.findViewById<TextView>(R.id.dialog_email).text = "이메일: ${person.email}"
