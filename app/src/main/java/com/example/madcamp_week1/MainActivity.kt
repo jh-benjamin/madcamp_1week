@@ -1,17 +1,14 @@
 package com.example.madcamp_week1
 
+import com.example.madcamp_week1.R
 import android.os.Bundle
-import android.widget.Toolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.madcamp_week1.databinding.ActivityMainBinding
 import com.example.madcamp_week1.ui.MainViewPagerAdapter
-import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +20,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false) // 기본 타이틀 숨기기
+        
         val navView: BottomNavigationView = binding.navView
         val viewPager = binding.viewPager
 
