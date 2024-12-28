@@ -7,5 +7,6 @@ data class Person (
     val tel: String,
     val office: String,
     val email: String,
-    val attendance: Double
+    val attendance: Double,
+    var isFavorite: Boolean = false
 )

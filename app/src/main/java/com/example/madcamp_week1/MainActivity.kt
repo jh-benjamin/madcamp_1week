@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.madcamp_week1.databinding.ActivityMainBinding
 import com.example.madcamp_week1.ui.MainViewPagerAdapter
+import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,10 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val navView: BottomNavigationView = binding.navView
         val viewPager = binding.viewPager
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             isUserInteraction = false
             true
         }
+
 
         // ViewPager 페이지 변경 시 BottomNavigationView 탭 변경
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
