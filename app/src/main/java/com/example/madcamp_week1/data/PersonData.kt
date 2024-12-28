@@ -25,6 +25,5 @@ object PersonData{
         Person(R.drawable.leejuyoung, "이주영", "개혁신당","02-784-3457", "의원회관 538호", "jylee_nrp@naver.com", 90.32),
         Person(R.drawable.nakyeongwon, "나경원", "국민의힘","02-784-8975", "의원회관 706호", "nakw63@naver.com", 74.19),
         Person(R.drawable.woowonshik, "우원식", "무소속","02-784-3601~3", "의원회관 501호", "reform1-1@hanmail.net", 100.0)
-
     )
 }

@@ -2,6 +2,7 @@ package com.example.madcamp_week1.ui.dashboard
 
 import android.app.AlertDialog
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,16 @@ class DashboardFragment : Fragment() {
             partyLogoView.setImageResource(partyLogoResId)
         }
 
+        // GradientDrawable로 테두리 설정
+        val partyColor = getPartyColor(person.party)
+        val borderDrawable = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            setStroke(8, partyColor) // 두께와 색상
+            setColor(Color.TRANSPARENT) // 내부는 투명
+        }
+
+        dialogView.background = borderDrawable // 테두리 적용
+
         dialog.show()
     }
 
@@ -74,4 +85,15 @@ class DashboardFragment : Fragment() {
             else -> null
         }
     }
+
+    private fun getPartyColor(partyName: String): Int {
+        return when (partyName) {
+            "더불어민주당" -> Color.parseColor("#0052A7")
+            "국민의힘" -> Color.parseColor("#C9151E")
+            "조국혁신당" -> Color.parseColor("#0033A0")
+            "개혁신당" -> Color.parseColor("#FF7210")
+            else -> Color.GRAY // 기본 색상
+        }
+    }
+
 }
