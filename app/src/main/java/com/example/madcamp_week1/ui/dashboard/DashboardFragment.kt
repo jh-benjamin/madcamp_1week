@@ -1,5 +1,6 @@
 package com.example.madcamp_week1.ui.dashboard
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -9,15 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp_week1.R
 import com.example.madcamp_week1.data.PersonData.personListFile
-import com.example.madcamp_week1.databinding.FragmentDashboardBinding
 import com.example.madcamp_week1.model.Person
 
 class DashboardFragment : Fragment() {
@@ -39,6 +36,7 @@ class DashboardFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showPersonDialog(person: Person) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_person, null)
         val dialog = AlertDialog.Builder(requireContext())

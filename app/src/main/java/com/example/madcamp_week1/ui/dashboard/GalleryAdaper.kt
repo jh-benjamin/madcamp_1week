@@ -1,6 +1,5 @@
 package com.example.madcamp_week1.ui.dashboard
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
