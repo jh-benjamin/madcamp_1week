@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.madcamp_week1.HomeFragment
 import com.example.madcamp_week1.ui.dashboard.DashboardFragment
-import com.example.madcamp_week1.ui.notifications.NotificationsFragment
+import com.example.madcamp_week1.ui.notification.NotificationsFragment
 
 class MainViewPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
 
