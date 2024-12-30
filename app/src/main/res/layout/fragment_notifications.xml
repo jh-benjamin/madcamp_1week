@@ -11,7 +11,6 @@
         android:id="@+id/spinner_selection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
         android:layout_marginBottom="0dp" />
 
     <TextView
@@ -29,8 +28,7 @@
         android:id="@+id/semi_circle_graph_view"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:layout_gravity="center"
-        android:layout_weight="0" />
+        android:layout_gravity="center" />
 
     <!-- RecyclerView for Party Info -->
     <androidx.recyclerview.widget.RecyclerView
