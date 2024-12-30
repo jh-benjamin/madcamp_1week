@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.madcamp_week1.data.PersonData
 import com.example.madcamp_week1.model.Person
 
@@ -34,7 +35,13 @@ class PersonAdapter(private val personList: List<Person>) :
         holder.nameTextView.text = person.name
         holder.partyTextView.text = person.party
         holder.phoneTextView.text = person.tel // 전화번호 추가
-        holder.imageView.setImageResource(R.drawable.ahncheolsoo)
+
+        // Glide를 사용하여 URL에서 이미지 로드
+        Glide.with(holder.itemView.context)
+            .load(person.img) // person.img는 JSON에서 제공된 사진 URL입니다.
+            //.placeholder(R.drawable.logo_white) // 로딩 중 표시할 기본 이미지
+            .error(R.drawable.errorimage) // 로드 실패 시 표시할 이미지
+            .into(holder.imageView)
 
         // 초기 상태 설정
         val isFavorite = person.isFavorite
