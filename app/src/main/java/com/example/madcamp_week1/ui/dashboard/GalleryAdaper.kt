@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.madcamp_week1.R
 import com.example.madcamp_week1.model.Person
 
@@ -17,7 +18,14 @@ class GalleryAdapter(
         val imageView: ImageView = itemView.findViewById(R.id.image_view)
 
         fun bind(person: Person) {
-            imageView.setImageResource(R.drawable.ahncheolsoo)
+            // Glide를 사용하여 URL에서 이미지를 동적으로 로드
+                Glide.with(itemView.context)
+                .load(person.img)  // person.img는 JSON에서 제공된 사진 URL입니다.
+                //.placeholder(R.drawable.logo_white)  // 로딩 중 기본 이미지
+                .error(R.drawable.errorimage)  // 로드 실패 시 오류 이미지
+                .into(imageView)
+
+            // 항목 클릭 시 콜백 호출
             itemView.setOnClickListener { onItemClick(person) }
         }
     }

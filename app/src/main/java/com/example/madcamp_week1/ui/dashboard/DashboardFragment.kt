@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp_week1.R
 import com.example.madcamp_week1.data.PersonData.personListFile
 import com.example.madcamp_week1.model.Person
+import com.bumptech.glide.Glide
 
 class DashboardFragment : Fragment() {
     override fun onCreateView(
@@ -42,8 +43,15 @@ class DashboardFragment : Fragment() {
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .create()
+
         // 다이얼로그에 Person 데이터 바인딩
-        dialogView.findViewById<ImageView>(R.id.dialog_image).setImageResource(R.drawable.ahncheolsoo)
+        val imageView = dialogView.findViewById<ImageView>(R.id.dialog_image)
+        Glide.with(this)
+            .load(person.img) // URL에서 이미지 로드
+            .placeholder(R.drawable.logo_white) // 로딩 중 표시할 기본 이미지
+           // .error(R.drawable.ic_error) // 오류 시 표시할 이미지
+            .into(imageView)
+
         dialogView.findViewById<TextView>(R.id.dialog_name).text = person.name
         dialogView.findViewById<TextView>(R.id.dialog_party).text = "정당: ${person.party}"
         dialogView.findViewById<TextView>(R.id.dialog_tel).text = "전화번호: ${person.tel}"
