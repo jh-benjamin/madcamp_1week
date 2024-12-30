@@ -17,7 +17,7 @@ class GalleryAdapter(
         val imageView: ImageView = itemView.findViewById(R.id.image_view)
 
         fun bind(person: Person) {
-            imageView.setImageResource(person.imageResId)
+            imageView.setImageResource(R.drawable.ahncheolsoo)
             itemView.setOnClickListener { onItemClick(person) }
         }
     }

@@ -34,7 +34,7 @@ class PersonAdapter(private val personList: List<Person>) :
         holder.nameTextView.text = person.name
         holder.partyTextView.text = person.party
         holder.phoneTextView.text = person.tel // 전화번호 추가
-        holder.imageView.setImageResource(person.imageResId)
+        holder.imageView.setImageResource(R.drawable.ahncheolsoo)
 
         // 초기 상태 설정
         val isFavorite = person.isFavorite

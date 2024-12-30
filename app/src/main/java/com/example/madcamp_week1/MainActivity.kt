@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.example.madcamp_week1.data.PersonData
 import com.example.madcamp_week1.databinding.ActivityMainBinding
 import com.example.madcamp_week1.ui.MainViewPagerAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // JSON 데이터 로드
+        PersonData.initializeData(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
