@@ -1,6 +1,5 @@
 package com.example.madcamp_week1
 
-import com.example.madcamp_week1.R
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
