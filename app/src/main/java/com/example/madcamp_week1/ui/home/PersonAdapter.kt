@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.madcamp_week1.model.Person
 
-class PersonAdapter(private var personList: MutableList<Person>) :
+class PersonAdapter(private var personList: List<Person>) :
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,9 +24,8 @@ class PersonAdapter(private var personList: MutableList<Person>) :
     }
 
     fun updateList(newList: List<Person>) {
-        personList.clear()
-        personList.addAll(newList)
-        notifyDataSetChanged()
+        personList = newList
+        notifyDataSetChanged() // 데이터 갱신
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {

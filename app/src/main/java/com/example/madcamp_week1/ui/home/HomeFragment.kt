@@ -32,10 +32,14 @@ class HomeFragment : Fragment() {
         // RecyclerView 초기화
         recyclerView = view.findViewById(R.id.recycler_view_home)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // PersonData가 비어있는지 확인
         if (PersonData.personListFile.isEmpty()) {
-            Log.e("HomeFragment", "PersonData.personListFile is empty. Check your data initialization.")
+            Log.e("HomeFragment", "PersonData.personListFile is empty. Initialize data first.")
         }
-        adapter = PersonAdapter(PersonData.personListFile) // 초기 데이터를 어댑터에 전달
+
+        // 어댑터 초기화
+        adapter = PersonAdapter(PersonData.personListFile)
         recyclerView.adapter = adapter
 
         // SearchView 초기화
@@ -46,34 +50,38 @@ class HomeFragment : Fragment() {
     private fun setupSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.d("textsubmit", "onQueryTextSubmit called with query: $query")
-                if (!query.isNullOrEmpty()) {
-                    val filteredList = PersonData.personListFile.filter { it.name.startsWith(query, ignoreCase = true) }
-                    adapter.updateList(filteredList)
-                } else {
-                    adapter.updateList(PersonData.personListFile) // 초기 데이터로 복원
-                }
+                // 검색 버튼 클릭 시 필터링 실행
+                filterList(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Log.d("textchange", "onQueryTextChange called with newText: $newText")
-                val filteredList = if (!newText.isNullOrEmpty()) {
-                    PersonData.personListFile.filter { it.name.startsWith(newText, ignoreCase = true) }
-                } else {
-                    PersonData.personListFile // 초기 데이터로 복원
-                }
-                adapter.updateList(filteredList)
+                // 텍스트 변경 시 실시간 필터링
+                filterList(newText)
                 return true
             }
         })
 
         searchView.setOnCloseListener {
-            // 초기 상태로 복원
-            adapter.updateList(PersonData.personListFile) // 초기 데이터로 복원
-            searchView.setQuery("", false) // 검색창 텍스트 초기화
-            searchView.clearFocus() // 포커스 해제
-            false // 기본 동작 유지
+            // 검색창 닫을 때 초기화
+            resetList()
+            false
         }
+    }
+
+    private fun filterList(query: String?) {
+        if (!query.isNullOrEmpty()) {
+            val filteredList = PersonData.personListFile.filter {
+                it.name.contains(query, ignoreCase = true)
+            }
+            adapter.updateList(filteredList)
+        } else {
+            resetList()
+        }
+    }
+
+    private fun resetList() {
+        // 초기 데이터로 복원
+        adapter.updateList(PersonData.personListFile)
     }
 }
