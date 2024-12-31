@@ -11,6 +11,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.madcamp_week1.data.PartyInfoData.partyList_22
 import com.example.madcamp_week1.model.PartyInfo
+import kotlin.math.floor
 import kotlin.math.min
 
 class SemiCircleGraphView @JvmOverloads constructor(
@@ -75,48 +76,88 @@ class SemiCircleGraphView @JvmOverloads constructor(
         val seatColors = MutableList(totalLayers) { mutableListOf<Int>() }
 
         // 레이어별로 좌석 색상 배치
-        for (layer in 0 until totalLayers) {
+        for (layer in totalLayers - 1 downTo 0) {
             val layerSeatCount = layerSeats[layer] // 해당 레이어의 좌석 수
 
-            // 레이어 내 정당별 좌석 수 계산 (반올림 적용)
-            val layerPartySeatsWithRemainder = partyRatios.map { it * layerSeatCount }
-            val layerPartySeats = layerPartySeatsWithRemainder.map { it.toInt() }.toMutableList()
+            // 레이어 내 정당별 좌석 수 계산 (반올림 처리)
 
-            // 남은 좌석 처리 (잔여 좌석 추가)
-            var remainingSeats = layerSeatCount - layerPartySeats.sum()
-            while (remainingSeats > 0) {
-                // 잔여값이 가장 큰 정당에 좌석 1개 추가
-                val maxRemainderIndex = layerPartySeatsWithRemainder
-                    .mapIndexed { index, value -> value - layerPartySeats[index] }
-                    .withIndex()
-                    .maxByOrNull { it.value }!!.index
-                layerPartySeats[maxRemainderIndex] += 1
-                remainingSeats--
+            val layerPartySeatsWithRounding = partyRatios.map { floor(it * layerSeatCount).toInt() }.toMutableList()
+
+            // 레이어 내 배정된 좌석 리스트 계산
+            for (i in layerPartySeatsWithRounding.indices) {
+                allocatedSeats[i] += layerPartySeatsWithRounding[i]
             }
 
-            // 레이어 좌석 합이 정확한지 최종 확인 및 보정
-            val totalLayerSeats = layerPartySeats.sum()
-            if (totalLayerSeats != layerSeatCount) {
-                Log.e("SeatAllocation", "Error: Layer $layer seats mismatch!")
-                continue // 오류 발생 시 해당 레이어 건너뜀
+            // 초과 좌석 검증 및 수정
+            for (index in allocatedSeats.indices) {
+                val maxSeatsForParty = partyList[index].seats
+                if (allocatedSeats[index] > maxSeatsForParty) {
+                    val excessSeats = allocatedSeats[index] - maxSeatsForParty
+                    layerPartySeatsWithRounding[index] -= excessSeats
+                    allocatedSeats[index] -= excessSeats // 초과 좌석 조정
+                }
             }
+
+            // 전체 배정된 좌석 수 계산 및 남은 좌석 수 계산
+            var totalAssignedSeats = layerPartySeatsWithRounding.sum()
+            var remainingSeats = layerSeatCount - totalAssignedSeats
+
+            if (remainingSeats != 0) {
+                // 초과 또는 부족한 좌석을 조정
+                val adjustments = partyRatios.mapIndexed { index, ratio ->
+                    Pair(index, ratio * layerSeatCount - layerPartySeatsWithRounding[index])
+                }.filter { allocatedSeats[it.first] < partyList[it.first].seats }
+
+                while (remainingSeats > 0) {
+                    // 부족한 경우: 남은 좌석을 잔여값이 큰 순서대로 추가
+                    adjustments.sortedByDescending { it.second }.forEach { (index, _) ->
+                        if (remainingSeats <= 0) return@forEach
+                        if (allocatedSeats[index] < partyList[index].seats) {
+                            layerPartySeatsWithRounding[index] += 1
+                            allocatedSeats[index] += 1
+                            remainingSeats--
+                        }
+                    }
+                }
+                while (remainingSeats < 0) {
+                    // 초과된 경우: 남은 좌석을 잔여값이 작은 순서대로 제거
+                    adjustments.sortedBy { it.second }.forEach { (index, _) ->
+                        if (remainingSeats >= 0) return@forEach
+                        if (layerPartySeatsWithRounding[index] > 0) {
+                            layerPartySeatsWithRounding[index] -= 1
+                            allocatedSeats[index] -= 1
+                            remainingSeats++
+                        }
+                    }
+                }
+            }
+
+            if (remainingSeats > 0) {
+                Log.e("Error", "Remaining seats not fully assigned: $remainingSeats")
+            }
+
+            // **디버그용 로그 추가**
+            Log.d("SemiCircleGraphView", "Layer $layer - Assigned Seats After Adjustment: $layerPartySeatsWithRounding")
+            Log.d("SemiCircleGraphView", "Layer $layer - Remaining Seats After Adjustment: $remainingSeats")
 
             // 정당별로 좌석 색상 할당 및 전역 추적 업데이트
             var currentPartyIndex = 0
             var remainingSeatsInLayer = layerSeatCount
             while (remainingSeatsInLayer > 0) {
-                if (layerPartySeats[currentPartyIndex] > 0) {
+                if (layerPartySeatsWithRounding[currentPartyIndex] > 0) {
                     // 해당 정당의 색상을 추가
                     seatColors[layer].add(Color.parseColor(partyList[currentPartyIndex].color))
-                    layerPartySeats[currentPartyIndex]--
+                    layerPartySeatsWithRounding[currentPartyIndex]--
                     remainingSeatsInLayer--
-
-                    // 전역 배분 추적
-                    allocatedSeats[currentPartyIndex]++
                 } else {
                     // 현재 정당의 좌석이 모두 배치되면 다음 정당으로 이동
                     currentPartyIndex++
                 }
+            }
+
+            // 배정 상태를 검증
+            if (allocatedSeats.sum() > totalSeats) {
+                Log.e("SemiCircleGraphView", "Error: Allocated seats exceed total seats!")
             }
         }
 

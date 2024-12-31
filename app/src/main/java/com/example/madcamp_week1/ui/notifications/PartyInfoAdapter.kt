@@ -1,3 +1,4 @@
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,30 +8,42 @@ import com.example.madcamp_week1.R
 import com.example.madcamp_week1.model.PartyInfo
 
 class PartyInfoAdapter(private var partyList: List<PartyInfo>) :
-    RecyclerView.Adapter<PartyInfoAdapter.PartyViewHolder>() {
+    RecyclerView.Adapter<PartyInfoAdapter.PartyInfoViewHolder>() {
 
-    class PartyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val partyName: TextView = view.findViewById(R.id.party_name)
-        val partySeats: TextView = view.findViewById(R.id.party_seats)
+    // ViewHolder 클래스
+    class PartyInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val partyNameTextView: TextView = itemView.findViewById(R.id.party_name)
+        private val partySeatsTextView: TextView = itemView.findViewById(R.id.party_seats)
+
+        // 정당 데이터를 바인딩하는 메서드
+        fun bind(partyInfo: PartyInfo) {
+            // 텍스트 업데이트
+            partyNameTextView.text = partyInfo.name
+            partySeatsTextView.text = "${partyInfo.seats}석"
+
+            // 텍스트 색상 설정 (정당의 색상)
+            partyNameTextView.setTextColor(Color.parseColor(partyInfo.color))
+            partySeatsTextView.setTextColor(Color.parseColor(partyInfo.color))
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartyViewHolder {
-        val view = LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartyInfoViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_party_info, parent, false)
-        return PartyViewHolder(view)
+        return PartyInfoViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: PartyViewHolder, position: Int) {
-        val party = partyList[position]
-        holder.partyName.text = party.name
-        holder.partySeats.text = "${party.seats}석"
+    override fun onBindViewHolder(holder: PartyInfoViewHolder, position: Int) {
+        holder.bind(partyList[position])
     }
 
-    override fun getItemCount(): Int = partyList.size
+    override fun getItemCount(): Int {
+        return partyList.size
+    }
 
-    // RecyclerView 데이터 업데이트
+    // RecyclerView 데이터 업데이트 메서드
     fun updateData(newPartyList: List<PartyInfo>) {
-        this.partyList = newPartyList
+        partyList = newPartyList
         notifyDataSetChanged()
     }
 }

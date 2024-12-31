@@ -1,6 +1,7 @@
 package com.example.madcamp_week1.ui.notifications
 
 import PartyInfoAdapter
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -82,6 +83,7 @@ class NotificationsFragment : Fragment() {
                 updateRecyclerViewData(selectedList)
                 val totalSeats = calculateTotalSeats(selectedList)
                 updateTotalSeatsTextView(totalSeats)
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -17,6 +17,7 @@
         android:id="@+id/textview_total_seats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="제적: 300석"
         android:textSize="16sp"
         android:textStyle="bold"
