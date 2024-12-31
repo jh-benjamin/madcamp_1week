@@ -10,6 +10,9 @@
     <color name="background_color">#F2F1F0</color>
     <color name="colorPrimary">#1D1F58</color>
 
+    <color name="yellow">#FFFF00</color>
+    <color name="defaultTextColor">#000000</color> <!-- 기본 텍스트 색상 -->
+
     <color name="더불어민주당">#0052A7</color>
     <color name="국민의힘">#C9151E</color>
     <color name="조국혁신당">#0033A0</color>

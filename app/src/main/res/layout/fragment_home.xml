@@ -5,12 +5,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <SearchView
-        android:id="@+id/search_view_home"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search by name"/>
+        android:orientation="horizontal">
+
+        <SearchView
+            android:id="@+id/search_view_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search by name"/>
+
+        <Button
+            android:id="@+id/favorite_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="★"
+            android:contentDescription="Favorites"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:elevation="4dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_home"

@@ -11,10 +11,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.madcamp_week1.data.PersonData
 import com.example.madcamp_week1.model.Person
 import com.example.madcamp_week1.util.PreferenceHelper // 추가된 PreferenceHelper import
 
-class PersonAdapter(private var personList: List<Person>, private val context: Context) :
+class PersonAdapter(
+    private var personList: List<Person>,
+    private val context: Context,
+    private val updateParentList: () -> List<Person> // 부모에서 현재 상태를 가져오는 함수
+) :
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     private val preferenceHelper = PreferenceHelper(context) // SharedPreferences 초기화
@@ -80,6 +85,11 @@ class PersonAdapter(private var personList: List<Person>, private val context: C
             person.isFavorite = !person.isFavorite // 상태 토글
             updateStarIcon(holder.favoriteStar, person.isFavorite)
             preferenceHelper.setFavorite(person.name, person.isFavorite) // 상태 저장
+
+            // 부모의 현재 검색 상태 기준으로 정렬 및 갱신
+            val updatedList = updateParentList()
+                .sortedWith(compareByDescending<Person> { it.isFavorite }.thenBy { it.name })
+            updateList(updatedList)
         }
 
         // 전화기 아이콘 클릭 이벤트
@@ -100,5 +110,12 @@ class PersonAdapter(private var personList: List<Person>, private val context: C
         } else {
             starView.setImageResource(R.drawable.ic_star_outline) // 빈 별
         }
+    }
+
+    private fun refreshList() {
+        // 현재 리스트를 isFavorite 기준으로 정렬
+        val sortedList = PersonData.personListFile
+            .sortedWith(compareByDescending<Person> { it.isFavorite }.thenBy { it.name })
+        updateList(sortedList) // 어댑터 업데이트
     }
 }
