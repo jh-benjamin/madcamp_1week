@@ -3,11 +3,13 @@ package com.example.madcamp_week1.ui.dashboard
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -19,6 +21,10 @@ import com.example.madcamp_week1.model.Person
 import com.bumptech.glide.Glide
 
 class DashboardFragment : Fragment() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: GalleryAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,15 +32,58 @@ class DashboardFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        val personList = personListFile
+        recyclerView = view.findViewById(R.id.recycler_view_dashboard)
+        setupRecyclerView(2) // 초기 상태: 2분할
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_dashboard)
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = GalleryAdapter(personList) { person ->
-            showPersonDialog(person)
-        }
+        // 버튼 초기화 및 클릭 리스너 설정
+        val buttonOneSplit = view.findViewById<Button>(R.id.button_one_split)
+        val buttonTwoSplit = view.findViewById<Button>(R.id.button_two_split)
+        val buttonFourSplit = view.findViewById<Button>(R.id.button_four_split)
+
+        buttonOneSplit.setOnClickListener { setupRecyclerView(1) }
+        buttonTwoSplit.setOnClickListener { setupRecyclerView(2) }
+        buttonFourSplit.setOnClickListener { setupRecyclerView(4) }
 
         return view
+    }
+
+    private fun setupRecyclerView(spanCount: Int) {
+        val spacing = 8
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+
+        // 기존 ItemDecoration 제거
+        while (recyclerView.itemDecorationCount > 0) {
+            recyclerView.removeItemDecorationAt(0)
+        }
+
+        // 새로운 ItemDecoration 추가
+        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                outRect.set(spacing / 1, spacing / 1, spacing / 1, spacing / 1)
+            }
+        })
+
+        // 데이터를 무작위로 섞기
+        val shuffledList = personListFile.shuffled()
+
+        // GalleryAdapter 설정
+        if (!::adapter.isInitialized) {
+            adapter = GalleryAdapter(shuffledList, spanCount, spacing) { person ->
+                showPersonDialog(person)
+            }
+            recyclerView.adapter = adapter
+        } else {
+            // 기존 어댑터에 셔플된 리스트 업데이트
+            (recyclerView.adapter as GalleryAdapter).updateList(shuffledList)
+            (recyclerView.adapter as GalleryAdapter).updatespanCount(spanCount, spacing)
+
+           // adapter.notifyDataSetChanged()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -57,7 +106,6 @@ class DashboardFragment : Fragment() {
         dialogView.findViewById<TextView>(R.id.dialog_tel).text = "전화번호: ${person.tel}"
         dialogView.findViewById<TextView>(R.id.dialog_office).text = "사무실: ${person.office}"
         dialogView.findViewById<TextView>(R.id.dialog_email).text = "이메일: ${person.email}"
-        // dialogView.findViewById<TextView>(R.id.dialog_attendance).text = "출석률: ${person.attendance}%"
 
         // 정당 로고 설정
         val partyLogoView = dialogView.findViewById<ImageView>(R.id.dialog_party_logo)
@@ -107,5 +155,4 @@ class DashboardFragment : Fragment() {
             else -> Color.GRAY // 기본 색상
         }
     }
-
 }

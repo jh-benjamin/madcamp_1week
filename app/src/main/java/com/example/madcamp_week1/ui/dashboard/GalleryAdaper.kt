@@ -11,35 +11,60 @@ import com.example.madcamp_week1.model.Person
 
 class GalleryAdapter(
     private val personList: List<Person>,
+    private var spanCount: Int,
+    private var spacing: Int, // 항목 간 간격
     private val onItemClick: (Person) -> Unit
 ) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private var internalList: List<Person> = personList // 내부 리스트
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image_view)
+    }
 
-        fun bind(person: Person) {
-            // Glide를 사용하여 URL에서 이미지를 동적으로 로드
-                Glide.with(itemView.context)
-                .load(person.img)  // person.img는 JSON에서 제공된 사진 URL입니다.
-                //.placeholder(R.drawable.logo_white)  // 로딩 중 기본 이미지
-                .error(R.drawable.errorimage)  // 로드 실패 시 오류 이미지
-                .into(imageView)
+    fun updatespanCount(newSpanCount: Int, newSpacing: Int) {
+        this.spanCount = newSpanCount
+        this.spacing = newSpacing
+        notifyDataSetChanged()
+    }
 
-            // 항목 클릭 시 콜백 호출
-            itemView.setOnClickListener { onItemClick(person) }
-        }
+    fun updateList(newList: List<Person>) {
+        internalList = newList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_image, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(personList[position])
+        val person = personList[position]
+
+        // 이미지 로드
+        Glide.with(holder.itemView.context)
+            .load(person.img)
+            .centerCrop()
+            .into(holder.imageView)
+
+        // 항목 크기 동적 조정
+        val layoutParams = holder.imageView.layoutParams
+        val parentWidth = holder.itemView.context.resources.displayMetrics.widthPixels
+
+        // 분할별 간격 계산
+        val totalSpacing = if (spanCount > 1) spacing * (spanCount - 1) else 0
+        val itemWidth = (parentWidth - totalSpacing) / spanCount
+
+        // 항목 크기 설정
+        layoutParams.width = itemWidth
+        layoutParams.height = (itemWidth * 1.5f).toInt() // 1:1.5 비율 유지
+        holder.imageView.layoutParams = layoutParams
+
+        // 항상 centerCrop으로 설정하여 공백 제거
+        holder.imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+
+        // 클릭 리스너 설정
+        holder.itemView.setOnClickListener { onItemClick(person) }
     }
-
     override fun getItemCount(): Int = personList.size
-
 }
