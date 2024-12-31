@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp_week1.R
+import com.example.madcamp_week1.data.PartyInfoData
 import com.example.madcamp_week1.data.PartyInfoData.partyList_22
 import com.example.madcamp_week1.data.PartyInfoData.partyList_21
 import com.example.madcamp_week1.data.PartyInfoData.partyList_20
@@ -62,6 +63,12 @@ class NotificationsFragment : Fragment() {
                     isFirstSelection = false
                 } else {
                     // 선택 값 변경 시 애니메이션 실행
+                    when (position) {
+                        0 -> semiCircleGraphView.updatePartyList(PartyInfoData.partyList_22) // 22대
+                        1 -> semiCircleGraphView.updatePartyList(PartyInfoData.partyList_21) // 21대
+                        2 -> semiCircleGraphView.updatePartyList(PartyInfoData.partyList_20) // 20대
+                    }
+
                     semiCircleGraphView?.startAnimation()
                 }
 
@@ -79,6 +86,7 @@ class NotificationsFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // 아무것도 선택되지 않을 때는 처리하지 않음
+                semiCircleGraphView.updatePartyList(PartyInfoData.partyList_22)
             }
         }
     }

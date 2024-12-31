@@ -88,6 +88,9 @@ class DashboardFragment : Fragment() {
             "국민의힘" -> R.drawable.powerofkorea
             "조국혁신당" -> R.drawable.rebuildingkorea
             "개혁신당" -> R.drawable.reformkorea
+            "진보당" -> R.drawable.jinbodang
+            "기본소득당" -> R.drawable.basicincome_party
+            "사회민주당" -> R.drawable.socialminjudang
             else -> null
         }
     }
@@ -98,6 +101,9 @@ class DashboardFragment : Fragment() {
             "국민의힘" -> Color.parseColor("#C9151E")
             "조국혁신당" -> Color.parseColor("#0033A0")
             "개혁신당" -> Color.parseColor("#FF7210")
+            "진보당" -> Color.parseColor("#C70519")
+            "기본소득당" -> Color.parseColor("#00C0B2")
+            "사회민주당" -> Color.parseColor("#D37100")
             else -> Color.GRAY // 기본 색상
         }
     }

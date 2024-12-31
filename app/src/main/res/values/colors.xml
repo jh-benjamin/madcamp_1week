@@ -9,4 +9,20 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_color">#F2F1F0</color>
     <color name="colorPrimary">#1D1F58</color>
+
+    <color name="더불어민주당">#0052A7</color>
+    <color name="국민의힘">#C9151E</color>
+    <color name="조국혁신당">#0033A0</color>
+    <color name="개혁신당">#FF7210</color>
+    <color name="진보당">#C70519</color>
+    <color name="기본소득당">#00C0B2</color>
+    <color name="사회민주당">#D37100</color>
+    <color name="정의당">#FFED00</color>
+    <color name="새로운미래">#45BABD</color>
+    <color name="자유통일당">#E24A49</color>
+    <color name="미래통합당">#EF426F</color>
+    <color name="민생당">#0BA95F</color>
+    <color name="우리공화당">#019944</color>
+
+
 </resources>
