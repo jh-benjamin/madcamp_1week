@@ -29,9 +29,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val context = requireContext() // 한 번 호출 후 재사용
+
         // RecyclerView 초기화
         recyclerView = view.findViewById(R.id.recycler_view_home)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
         // PersonData가 비어있는지 확인
         if (PersonData.personListFile.isEmpty()) {
@@ -39,7 +41,7 @@ class HomeFragment : Fragment() {
         }
 
         // 어댑터 초기화
-        adapter = PersonAdapter(PersonData.personListFile)
+        adapter = PersonAdapter(PersonData.personListFile, context)
         recyclerView.adapter = adapter
 
         // SearchView 초기화
@@ -72,7 +74,7 @@ class HomeFragment : Fragment() {
     private fun filterList(query: String?) {
         if (!query.isNullOrEmpty()) {
             val filteredList = PersonData.personListFile.filter {
-                it.name.contains(query, ignoreCase = true)
+                it.name.contains(query, ignoreCase = true) || it.party.startsWith(query, ignoreCase = true)
             }
             adapter.updateList(filteredList)
         } else {

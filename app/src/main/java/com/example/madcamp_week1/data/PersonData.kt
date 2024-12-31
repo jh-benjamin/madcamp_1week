@@ -43,15 +43,16 @@ object PersonData{
             val jsonArray = JSONArray(jsonString)
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
+                val name = jsonObject.getString("국회의원명")
                 val person = Person(
                     // image = context.resources.getIdentifier(jsonObject.getString("image"), "drawable", context.packageName),
-                    name = jsonObject.getString("국회의원명"),
+                    name = name,
                     party = jsonObject.getString("정당명"),
                     birth = jsonObject.getString("생일일자"),
                     tel = jsonObject.getString("전화번호"),
                     office = jsonObject.getString("사무실 호실"),
                     email = jsonObject.getString("국회의원이메일주소"),
-                    img = jsonObject.getString("국회의원사진")
+                    img = jsonObject.getString("국회의원사진"),
                 )
                 personList.add(person)
             }
