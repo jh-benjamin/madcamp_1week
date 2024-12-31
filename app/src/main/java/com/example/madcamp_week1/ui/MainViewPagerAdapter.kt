@@ -13,6 +13,7 @@ class MainViewPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(a
         return 3 // 페이지 개수
     }
 
+
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> HomeFragment()
