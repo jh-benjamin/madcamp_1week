@@ -6,7 +6,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.example.madcamp_week1.data.PartyInfoData.partyList_22
+import com.example.madcamp_week1.model.PartyInfo
 import kotlin.math.min
 
 class SemiCircleGraphView @JvmOverloads constructor(
@@ -16,6 +20,8 @@ class SemiCircleGraphView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private var currentSweepAngle = -180f // 애니메이션에서 그려질 각도
+
+    private var partyList = partyList_22
 
     init {
         startAnimation()
@@ -31,6 +37,11 @@ class SemiCircleGraphView @JvmOverloads constructor(
         animator.start()
     }
 
+    fun updatePartyList(newPartyList: List<PartyInfo>) {
+        partyList = newPartyList // PartyList 변경
+        invalidate() // 변경된 데이터를 반영하여 다시 그리기
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -40,67 +51,130 @@ class SemiCircleGraphView @JvmOverloads constructor(
         }
 
         // 화면 중심 좌표 및 반지름 계산
-        val centerX = width / 2f // 화면 가로 중심
-        val centerY = height / 1.125f // 화면 세로 중심
-        val maxRadius = min(width, height) / 1.2f // 반지름 설정 (화면 크기 기준)
+        val centerX = width / 2f
+        val centerY = height / 1.125f
+        val maxRadius = min(width, height) / 1.2f
 
-        // 층 간 간격 조정
-        val totalLayers = 8 // 부채꼴 층의 개수
-        val layerGap = maxRadius / (totalLayers + 4) // 층 간 간격을 균등하게 조정
+        // 층 간 간격
+        val totalLayers = 8
+        val layerGap = maxRadius / (totalLayers + 4)
 
-        val colors = listOf(Color.BLUE, Color.RED, Color.GRAY, Color.CYAN, Color.GREEN, Color.MAGENTA)
-        val colorRatios = listOf(180, 108, 12, 3, 1, 1) // 색상 비율 정의
+        // 전체 좌석 수 계산
+        val totalSeats = partyList.sumOf { it.seats }
 
-        // 전체 원 개수 계산
-        val totalCircles = colorRatios.sum()
+        // 각 레이어에 배분된 좌석 수 계산
+        val layerSeats = calculateCircles(totalSeats, totalLayers, 20, 6)
 
-        // 누적 색상 경계 계산
-        val colorBoundaries = mutableListOf<Int>()
-        var cumulativeSum = 0
-        for (ratio in colorRatios) {
-            cumulativeSum += ratio
-            colorBoundaries.add(cumulativeSum)
+        // 정당별 좌석 비율 계산
+        val partyRatios = partyList.map { it.seats.toDouble() / totalSeats }
+
+        // 정당별로 실제 배분된 좌석 수를 추적
+        val allocatedSeats = MutableList(partyList.size) { 0 }
+
+        // 2차원 배열로 좌석 데이터 초기화
+        val seatColors = MutableList(totalLayers) { mutableListOf<Int>() }
+
+        // 레이어별로 좌석 색상 배치
+        for (layer in 0 until totalLayers) {
+            val layerSeatCount = layerSeats[layer] // 해당 레이어의 좌석 수
+
+            // 레이어 내 정당별 좌석 수 계산 (반올림 적용)
+            val layerPartySeatsWithRemainder = partyRatios.map { it * layerSeatCount }
+            val layerPartySeats = layerPartySeatsWithRemainder.map { it.toInt() }.toMutableList()
+
+            // 남은 좌석 처리 (잔여 좌석 추가)
+            var remainingSeats = layerSeatCount - layerPartySeats.sum()
+            while (remainingSeats > 0) {
+                // 잔여값이 가장 큰 정당에 좌석 1개 추가
+                val maxRemainderIndex = layerPartySeatsWithRemainder
+                    .mapIndexed { index, value -> value - layerPartySeats[index] }
+                    .withIndex()
+                    .maxByOrNull { it.value }!!.index
+                layerPartySeats[maxRemainderIndex] += 1
+                remainingSeats--
+            }
+
+            // 레이어 좌석 합이 정확한지 최종 확인 및 보정
+            val totalLayerSeats = layerPartySeats.sum()
+            if (totalLayerSeats != layerSeatCount) {
+                Log.e("SeatAllocation", "Error: Layer $layer seats mismatch!")
+                continue // 오류 발생 시 해당 레이어 건너뜀
+            }
+
+            // 정당별로 좌석 색상 할당 및 전역 추적 업데이트
+            var currentPartyIndex = 0
+            var remainingSeatsInLayer = layerSeatCount
+            while (remainingSeatsInLayer > 0) {
+                if (layerPartySeats[currentPartyIndex] > 0) {
+                    // 해당 정당의 색상을 추가
+                    seatColors[layer].add(Color.parseColor(partyList[currentPartyIndex].color))
+                    layerPartySeats[currentPartyIndex]--
+                    remainingSeatsInLayer--
+
+                    // 전역 배분 추적
+                    allocatedSeats[currentPartyIndex]++
+                } else {
+                    // 현재 정당의 좌석이 모두 배치되면 다음 정당으로 이동
+                    currentPartyIndex++
+                }
+            }
         }
-
-        var currentCircleIndex = 0 // 현재까지 그린 원의 개수
-
-        val numCirclesPerLayer = listOf(48) + // 맨 바깥쪽
-                (1 until totalLayers - 1).map { 48 - (it * 5) } + // 중간 층
-                listOf(21) // 맨 안쪽
 
         // 각 층별 원 그리기
         for (layer in 0 until totalLayers) {
-            val radius = maxRadius - (layer * layerGap) // 층별 반지름 조정
-            val numCircles = numCirclesPerLayer[layer] // 해당 층의 원 개수
-            val sweepAngle = 180f / (numCircles - 1) // 각도 간격 (원 사이 간격 균등화)
+            val radius = maxRadius - (layer * layerGap)
+            val numCircles = layerSeats[layer]
+            val sweepAngle = 180f / (numCircles - 1)
 
-            for (i in 0 until numCircles) {
+            for (position in 0 until numCircles) {
                 // 현재 원의 각도 계산
-                val angle = -180f + (i * sweepAngle)
+                val angle = -180f + (position * sweepAngle)
 
                 // 각도 제한: currentSweepAngle 이하만 그리기
                 if (angle > currentSweepAngle) break
 
-                // 색상 결정 (누적 인덱스 기반)
-                val sectionIndex = colorBoundaries.indexOfFirst { currentCircleIndex < it }
-                paint.color = colors[sectionIndex]
+                // 좌석 색상 설정
+                paint.color = seatColors[layer][position]
 
-                // 페이드 인 효과: 반투명도 적용
-                val alpha = ((currentSweepAngle - angle) / 20f).coerceIn(0f, 1f) * 255
-                paint.alpha = alpha.toInt()
-
-                // 좌표 계산 (중심 기준 좌우 대칭)
+                // 좌표 계산
                 val x = (centerX + radius * Math.cos(Math.toRadians(angle.toDouble()))).toFloat()
                 val y = (centerY + radius * Math.sin(Math.toRadians(angle.toDouble()))).toFloat()
 
-                // 원 크기 변화 효과 (애니메이션 효과 추가)
-                val circleSize = 8f * alpha / 255f // 크기 비율에 따라 원 크기 조정
-
-                // 원 그리기
+                // 원 크기 설정
+                val circleSize = 8f
                 canvas.drawCircle(x, y, circleSize, paint)
-
-                currentCircleIndex++ // 원 인덱스 증가
             }
         }
+    }
+
+    private fun calculateCircles(totalSeats: Int, totalLayers: Int, a1: Int, d: Int): List<Int> {
+        // 1. 등차수열로 각 층의 원 개수 생성
+        val rawCircleCounts = (0 until totalLayers).map { a1 + it * d } // 등차수열 생성
+
+        // 2. 등차수열 총합 계산
+        val sumOfRawCircles = rawCircleCounts.sum()
+
+        // 3. 전체 원 개수를 totalSeats에 맞게 조정 (소수점 포함)
+        val scalingFactor = totalSeats.toDouble() / sumOfRawCircles
+        val scaledCircleCountsWithDecimals = rawCircleCounts.map { it * scalingFactor }
+
+        // 4. 정수로 변환하면서 누적 손실 계산
+        val scaledCircleCounts = scaledCircleCountsWithDecimals.map { it.toInt() }.toMutableList()
+        val totalAssignedSeats = scaledCircleCounts.sum()
+
+        // 5. 손실 보정
+        var remainingSeats = totalSeats - totalAssignedSeats // 남은 좌석 수
+        while (remainingSeats > 0) {
+            // 가장 큰 소수점 부분을 가진 층에 1 추가
+            val maxDecimalIndex = scaledCircleCountsWithDecimals
+                .mapIndexed { index, value -> value - scaledCircleCounts[index] }
+                .withIndex()
+                .maxByOrNull { it.value }!!.index
+            scaledCircleCounts[maxDecimalIndex] += 1
+            remainingSeats -= 1
+        }
+
+        // 6. 조정된 리스트 반환
+        return scaledCircleCounts.reversed()
     }
 }
