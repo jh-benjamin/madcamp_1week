@@ -1,6 +1,7 @@
 package com.example.madcamp_week1.data
 
 import android.content.Context
+import android.util.Log
 import com.example.madcamp_week1.R
 import com.example.madcamp_week1.model.Person
 import org.json.JSONArray
@@ -11,6 +12,11 @@ object PersonData{
 
     fun initializeData(context: Context) {
         val jsonData = parseJSONToPersonList(context, "assemblyData.json")
+        if (jsonData.isEmpty()) {
+            Log.e("PersonData", "Failed to load JSON data. Check the file path or content.")
+        } else {
+            Log.d("PersonData", "Loaded ${jsonData.size} items from JSON")
+        }
         personListFile.clear()
         personListFile.addAll(jsonData)
     }
@@ -55,5 +61,4 @@ object PersonData{
 
         return personList
     }
-
 }

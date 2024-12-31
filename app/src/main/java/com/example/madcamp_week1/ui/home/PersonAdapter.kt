@@ -9,10 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.madcamp_week1.data.PersonData
 import com.example.madcamp_week1.model.Person
 
-class PersonAdapter(private val personList: List<Person>) :
+class PersonAdapter(private var personList: List<Person>) :
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,6 +21,11 @@ class PersonAdapter(private val personList: List<Person>) :
         val imageView: ImageView = itemView.findViewById(R.id.person_image)
         val favoriteStar: ImageView = itemView.findViewById(R.id.favorite_star)
         val phoneIcon: ImageView = itemView.findViewById(R.id.phone_icon)
+    }
+
+    fun updateList(newList: List<Person>) {
+        personList = newList
+        notifyDataSetChanged() // 데이터 갱신
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
@@ -59,11 +63,9 @@ class PersonAdapter(private val personList: List<Person>) :
             holder.itemView.context.startActivity(intent)
         }
     }
-
     override fun getItemCount(): Int {
         return personList.size
     }
-
     private fun updateStarIcon(starView: ImageView, isFavorite: Boolean) {
         if (isFavorite) {
             starView.setImageResource(R.drawable.ic_star_filled) // 채워진 별
