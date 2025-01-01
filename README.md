@@ -61,7 +61,7 @@
     - Animation 기능을 추가하여 자연스럽게 BottomNavigationView가 사라지고 나타나게 구현했어요.
 
 ### Contributers
-
+---
 | 이름     | 깃허브        |
 |----------|--------------|
 | 이재환  | [@jh-benjamin](https://github.com/jh-benjamin) |
