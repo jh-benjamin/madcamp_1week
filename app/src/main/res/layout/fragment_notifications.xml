@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+    android:fillViewport="true"
     android:padding="16dp">
 
-    <!-- Spinner -->
-    <Spinner
-        android:id="@+id/spinner_selection"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp" />
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/textview_total_seats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="제적: 300석"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        <!-- Spinner -->
+        <Spinner
+            android:id="@+id/spinner_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp" />
 
-    <!-- SemiCircleGraphView -->
-    <com.example.madcamp_week1.views.SemiCircleGraphView
-        android:id="@+id/semi_circle_graph_view"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_gravity="center" />
+        <TextView
+            android:id="@+id/textview_total_seats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="제적: 300석"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
 
-    <!-- RecyclerView for Party Info -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/party_info_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:layout_weight="1"
-        android:scrollbars="vertical" />
+        <!-- SemiCircleGraphView -->
+        <com.example.madcamp_week1.views.SemiCircleGraphView
+            android:id="@+id/semi_circle_graph_view"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_gravity="center" />
 
-</LinearLayout>
+        <!-- RecyclerView for Party Info -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/party_info_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:layout_weight="1"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+</ScrollView>

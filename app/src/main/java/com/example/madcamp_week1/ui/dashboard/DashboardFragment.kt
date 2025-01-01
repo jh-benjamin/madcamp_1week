@@ -17,8 +17,13 @@ import com.example.madcamp_week1.R
 import com.example.madcamp_week1.data.PersonData.personListFile
 import com.example.madcamp_week1.model.Person
 import com.bumptech.glide.Glide
+import com.example.madcamp_week1.MainActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardFragment : Fragment() {
+
+    private var isBottomBarVisible = true // 바텀바 상태 관리 변수
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +39,75 @@ class DashboardFragment : Fragment() {
             showPersonDialog(person)
         }
 
+        // 스크롤 이벤트 감지 추가
+        setupRecyclerViewScrollListener(recyclerView)
+
         return view
+    }
+
+    private fun setupRecyclerViewScrollListener(recyclerView: RecyclerView) {
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.nav_view) // 부모 Activity의 BottomNavigationView
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // 스크롤 방향에 따라 BottomNavigationView 감추기/보이기
+                if (dy > 0 && isBottomBarVisible) { // 아래로 스크롤
+                    bottomNavigationView?.let { hideBottomBar(it) }
+                    isBottomBarVisible = false
+                } else if (dy < 0 && !isBottomBarVisible) { // 위로 스크롤
+                    bottomNavigationView?.let { showBottomBar(it) }
+                    isBottomBarVisible = true
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val mainActivity = activity as? MainActivity
+        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+
+        bottomNavigationView?.let {
+            if (mainActivity?.isBottomBarVisible == true) {
+                // MainActivity 상태에 따라 BottomNavigationView를 표시
+                isBottomBarVisible = true
+                it.animate()
+                    .translationY(0f)
+                    .setDuration(200)
+                    .start()
+            } else {
+                // MainActivity 상태에 따라 BottomNavigationView를 숨김
+                isBottomBarVisible = false
+                it.animate()
+                    .translationY(it.height.toFloat())
+                    .setDuration(200)
+                    .start()
+            }
+        }
+    }
+
+    private fun hideBottomBar(bottomBar: BottomNavigationView) {
+        if (bottomBar.translationY == 0f) { // 이미 숨겨져 있지 않은 경우만 애니메이션 수행
+            bottomBar.animate()
+                .translationY(bottomBar.height.toFloat())
+                .setDuration(200)
+                .withEndAction { isBottomBarVisible = false } // 상태 동기화
+                .start()
+        }
+    }
+
+    private fun showBottomBar(bottomBar: BottomNavigationView) {
+        if (bottomBar.translationY != 0f) { // 이미 보이는 상태가 아닌 경우만 애니메이션 수행
+            bottomBar.animate()
+                .translationY(0f)
+                .setDuration(200)
+                .withEndAction { isBottomBarVisible = true } // 상태 동기화
+                .start()
+        }
     }
 
     @SuppressLint("SetTextI18n")
