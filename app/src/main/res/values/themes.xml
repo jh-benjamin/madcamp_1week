@@ -18,6 +18,9 @@
         <!-- ActionBar 제거 -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
 
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@null</item>
     </style>
 </resources>

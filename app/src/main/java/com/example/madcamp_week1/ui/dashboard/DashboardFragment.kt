@@ -97,7 +97,7 @@ class DashboardFragment : Fragment() {
         val imageView = dialogView.findViewById<ImageView>(R.id.dialog_image)
         Glide.with(this)
             .load(person.img) // URL에서 이미지 로드
-            .placeholder(R.drawable.logo_white) // 로딩 중 표시할 기본 이미지
+//            .placeholder(R.drawable.logo_white) // 로딩 중 표시할 기본 이미지
            // .error(R.drawable.ic_error) // 오류 시 표시할 이미지
             .into(imageView)
 
