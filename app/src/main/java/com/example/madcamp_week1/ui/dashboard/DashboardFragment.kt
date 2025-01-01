@@ -57,7 +57,8 @@ class DashboardFragment : Fragment() {
 
     private fun setupRecyclerView(spanCount: Int) {
         val spacing = 0
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        val layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.layoutManager = layoutManager
 
         // 기존 ItemDecoration 제거
         while (recyclerView.itemDecorationCount > 0) {
@@ -169,8 +170,6 @@ class DashboardFragment : Fragment() {
         val imageView = dialogView.findViewById<ImageView>(R.id.dialog_image)
         Glide.with(this)
             .load(person.img)
-            .placeholder(R.drawable.logo_white) // 로딩 중 표시할 기본 이미지
-            .thumbnail(0.25f) // 원본 크기의 25% 크기 미리보기
             .diskCacheStrategy(DiskCacheStrategy.ALL) // 디스크 캐싱 사용
             .into(imageView)
 

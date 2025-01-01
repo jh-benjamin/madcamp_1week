@@ -16,6 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         tools:listitem="@layout/item_image" />
 
     <!-- Button Layout -->
@@ -23,45 +25,50 @@
         android:id="@+id/button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/space_view"
         app:layout_constraintEnd_toEndOf="parent">
 
         <!-- 1분할 버튼 -->
         <Button
             android:id="@+id/button_one_split"
-            android:layout_width="80dp"
+            android:layout_width="48dp"
             android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:backgroundTint="#801D1F58"
-            android:text="1분할"
-            android:textColor="#FFFFFF"
-            android:gravity="center" />
+            android:background="@drawable/button_half_round"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/white" />
 
         <!-- 2분할 버튼 -->
         <Button
             android:id="@+id/button_two_split"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:backgroundTint="#801D1F58"
-            android:text="2분할"
-            android:textColor="#FFFFFF"
-            android:gravity="center" />
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/white" />
 
         <!-- 4분할 버튼 -->
         <Button
             android:id="@+id/button_four_split"
-            android:layout_width="80dp"
+            android:layout_width="48dp"
             android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:backgroundTint="#801D1F58"
-            android:text="4분할"
-            android:textColor="#FFFFFF"
-            android:gravity="center" />
+            android:background="@drawable/button_half_round_reversed"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/white" />
 
     </LinearLayout>
+
+    <!-- Spacer View -->
+    <View
+        android:id="@+id/space_view"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
