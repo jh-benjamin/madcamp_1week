@@ -11,17 +11,11 @@
 - **더불어민주당**, **국민의힘** 등 정당별 국회의원 의석 현황을 살펴볼 수 있어요.
 
 ### Tech Stack
-
 ---
-
 **Front-end** : Kotlin
-
 **IDE** : Android Studio
-
 ## Details about Tech
-
 ---
-
 ### Tab1 (HomeFragment)
 
 - 22대 국회의원 정보 리스트를 확인할 수 있어요.
