@@ -68,6 +68,12 @@
 | 이재환  | [@jh-benjamin](https://github.com/jh-benjamin) |
 | 최윤지  | [@yoon0701](https://github.com/yoon0701)    |
 
+### GIF
+---
+![one](https://github.com/user-attachments/assets/f8aa79f8-2fb2-4628-8118-61e898c1825b)
+![two](https://github.com/user-attachments/assets/0992b8b5-3a57-45f5-b5fe-00f201591ae7)
+![three](https://github.com/user-attachments/assets/037ae8be-642e-48c7-b96a-2a92fae0664f)
+
 ### APK
 ---
 - APK 파일은 apk 폴더에서 확인할 수 있어요.
