@@ -21,7 +21,6 @@ import com.example.madcamp_week1.model.Person
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.madcamp_week1.MainActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardFragment : Fragment() {
 

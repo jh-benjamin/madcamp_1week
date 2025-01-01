@@ -74,27 +74,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // BottomNavigationView 숨기기
-    private fun hideBottomBar() {
-        val bottomBar = binding.navView
-        if (isBottomBarVisible) {
-            bottomBar.animate()
-                .translationY(bottomBar.height.toFloat())
-                .setDuration(200)
-                .withEndAction { isBottomBarVisible = false } // 상태 동기화
-                .start()
-        }
-    }
-
     // BottomNavigationView 표시하기
     private fun showBottomBar() {
         val bottomBar = binding.navView
-        if (!isBottomBarVisible) {
-            bottomBar.animate()
-                .translationY(0f)
-                .setDuration(200)
-                .withEndAction { isBottomBarVisible = true } // 상태 동기화
-                .start()
-        }
+        bottomBar.animate()
+            .translationY(0f)
+            .setDuration(200)
+            .withEndAction { isBottomBarVisible = true } // 상태 동기화
+            .start()
     }
 }
