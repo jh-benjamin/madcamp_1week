@@ -18,18 +18,14 @@
             android:iconifiedByDefault="false"
             android:queryHint="Search by name"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/favorite_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="★"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_stars_24"
             android:contentDescription="Favorites"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:elevation="4dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_button" />
+            android:background="@null"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 

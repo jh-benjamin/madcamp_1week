@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.madcamp_week1.data.PersonData
 import com.example.madcamp_week1.model.Person
 import com.example.madcamp_week1.util.PreferenceHelper // 추가된 PreferenceHelper import
@@ -18,7 +19,8 @@ import com.example.madcamp_week1.util.PreferenceHelper // 추가된 PreferenceHe
 class PersonAdapter(
     private var personList: List<Person>,
     private val context: Context,
-    private val updateParentList: () -> List<Person> // 부모에서 현재 상태를 가져오는 함수
+    private val updateParentList: () -> List<Person>, // 부모에서 현재 상태를 가져오는 함수
+    private val onPersonClick: (Person) -> Unit // 항목 클릭 시 호출할 콜백 추가
 ) :
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
@@ -71,9 +73,9 @@ class PersonAdapter(
         val colorRes = partyColorMap[person.party] ?: R.color.무소속
         holder.partyTextView.setTextColor(holder.itemView.context.getColor(colorRes))
 
-        // Glide를 사용하여 URL에서 이미지 로드
         Glide.with(holder.itemView.context)
             .load(person.img)
+            .diskCacheStrategy(DiskCacheStrategy.ALL) // 디스크 캐싱 사용
             .error(R.drawable.errorimage)
             .into(holder.imageView)
 
@@ -98,6 +100,11 @@ class PersonAdapter(
             intent.data = Uri.parse("tel:${person.tel}")
             holder.itemView.context.startActivity(intent)
         }
+
+        // **항목 클릭 이벤트 추가**
+        holder.itemView.setOnClickListener {
+            onPersonClick(person) // 클릭된 Person 객체를 콜백으로 전달
+        }
     }
 
     override fun getItemCount(): Int {
@@ -119,3 +126,4 @@ class PersonAdapter(
         updateList(sortedList) // 어댑터 업데이트
     }
 }
+

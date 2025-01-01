@@ -44,6 +44,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- 나이 -->
+    <TextView
+        android:id="@+id/dialog_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:text="생년월일: 2024.12.31."
+        app:layout_constraintTop_toBottomOf="@id/dialog_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- 정당 -->
     <TextView
         android:id="@+id/dialog_party"
@@ -53,8 +67,8 @@
         android:textSize="16sp"
         android:textColor="#333333"
         android:gravity="center"
-        android:text="정당 : 더불어민주당"
-        app:layout_constraintTop_toBottomOf="@id/dialog_name"
+        android:text="정당: 더불어민주당"
+        app:layout_constraintTop_toBottomOf="@id/dialog_age"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

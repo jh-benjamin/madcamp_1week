@@ -1,5 +1,6 @@
 package com.example.madcamp_week1.ui.dashboard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,7 @@ class GalleryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val person = personList[position]
+        val person = internalList[position]
 
         // 이미지 로드
         Glide.with(holder.itemView.context)
@@ -59,12 +60,16 @@ class GalleryAdapter(
         layoutParams.width = itemWidth
         layoutParams.height = (itemWidth * 1.5f).toInt() // 1:1.5 비율 유지
         holder.imageView.layoutParams = layoutParams
+        holder.imageView.requestLayout() // 레이아웃 강제 업데이트
 
         // 항상 centerCrop으로 설정하여 공백 제거
         holder.imageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
         // 클릭 리스너 설정
-        holder.itemView.setOnClickListener { onItemClick(person) }
+        holder.itemView.setOnClickListener {
+            Log.d("GalleryAdapter", "Clicked on position: $position")
+            onItemClick(person)
+        }
     }
     override fun getItemCount(): Int = personList.size
 }

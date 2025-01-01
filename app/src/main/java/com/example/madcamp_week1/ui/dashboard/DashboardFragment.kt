@@ -19,6 +19,7 @@ import com.example.madcamp_week1.R
 import com.example.madcamp_week1.data.PersonData.personListFile
 import com.example.madcamp_week1.model.Person
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.madcamp_week1.MainActivity
 
@@ -55,7 +56,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupRecyclerView(spanCount: Int) {
-        val spacing = 8
+        val spacing = 0
         recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
 
         // 기존 ItemDecoration 제거
@@ -63,7 +64,6 @@ class DashboardFragment : Fragment() {
             recyclerView.removeItemDecorationAt(0)
         }
 
-        // 새로운 ItemDecoration 추가
         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
@@ -71,26 +71,26 @@ class DashboardFragment : Fragment() {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                outRect.set(spacing / 1, spacing / 1, spacing / 1, spacing / 1)
+                outRect.set(spacing, spacing, spacing, spacing)
             }
         })
 
-        // 데이터를 무작위로 섞기
-        val shuffledList = personListFile.shuffled()
+        // 데이터를 백그라운드 스레드에서 셔플
+        Thread {
+            val shuffledList = personListFile.shuffled()
 
-        // GalleryAdapter 설정
-        if (!::adapter.isInitialized) {
-            adapter = GalleryAdapter(shuffledList, spanCount, spacing) { person ->
-                showPersonDialog(person)
+            activity?.runOnUiThread {
+                if (!::adapter.isInitialized) {
+                    adapter = GalleryAdapter(shuffledList, spanCount, spacing) { person ->
+                        showPersonDialog(person)
+                    }
+                    recyclerView.adapter = adapter
+                } else {
+                    (recyclerView.adapter as GalleryAdapter).updateList(shuffledList)
+                    (recyclerView.adapter as GalleryAdapter).updatespanCount(spanCount, spacing)
+                }
             }
-            recyclerView.adapter = adapter
-        } else {
-            // 기존 어댑터에 셔플된 리스트 업데이트
-            (recyclerView.adapter as GalleryAdapter).updateList(shuffledList)
-            (recyclerView.adapter as GalleryAdapter).updatespanCount(spanCount, spacing)
-
-           // adapter.notifyDataSetChanged()
-        }
+        }.start()
     }
 
     private fun setupRecyclerViewScrollListener(recyclerView: RecyclerView) {
@@ -168,12 +168,14 @@ class DashboardFragment : Fragment() {
         // 다이얼로그에 Person 데이터 바인딩
         val imageView = dialogView.findViewById<ImageView>(R.id.dialog_image)
         Glide.with(this)
-            .load(person.img) // URL에서 이미지 로드
+            .load(person.img)
             .placeholder(R.drawable.logo_white) // 로딩 중 표시할 기본 이미지
-           // .error(R.drawable.ic_error) // 오류 시 표시할 이미지
+            .thumbnail(0.25f) // 원본 크기의 25% 크기 미리보기
+            .diskCacheStrategy(DiskCacheStrategy.ALL) // 디스크 캐싱 사용
             .into(imageView)
 
         dialogView.findViewById<TextView>(R.id.dialog_name).text = person.name
+        dialogView.findViewById<TextView>(R.id.dialog_age).text = "생년월일: ${person.birth}"
         dialogView.findViewById<TextView>(R.id.dialog_party).text = "정당: ${person.party}"
         dialogView.findViewById<TextView>(R.id.dialog_tel).text = "전화번호: ${person.tel}"
         dialogView.findViewById<TextView>(R.id.dialog_office).text = "사무실: ${person.office}"
