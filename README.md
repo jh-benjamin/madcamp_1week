@@ -66,3 +66,8 @@
 |----------|--------------|
 | 이재환  | [@jh-benjamin](https://github.com/jh-benjamin) |
 | 최윤지  | [@yoon0701](https://github.com/yoon0701)    |
+
+### APK
+---
+- APK 파일은 apk 폴더에서 확인할 수 있어요.
+
