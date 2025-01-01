@@ -70,7 +70,7 @@
 
 ### GIF
 ---
-![one](https://github.com/user-attachments/assets/f8aa79f8-2fb2-4628-8118-61e898c1825b) {: width="50%" height="50%"}
+![one](https://github.com/user-attachments/assets/f8aa79f8-2fb2-4628-8118-61e898c1825b) {: width="10%" height="10%"}
 ![two](https://github.com/user-attachments/assets/0992b8b5-3a57-45f5-b5fe-00f201591ae7)
 ![three](https://github.com/user-attachments/assets/037ae8be-642e-48c7-b96a-2a92fae0664f)
 
