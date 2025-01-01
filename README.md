@@ -62,6 +62,7 @@
 
 ### Contributers
 
-@jh-benjamin
-
-@yoon0701
+| 이름     | 깃허브        |
+|----------|--------------|
+| 이재환  | [@jh-benjamin](https://github.com/jh-benjamin) |
+| 최윤지  | [@yoon0701](https://github.com/yoon0701)    |
