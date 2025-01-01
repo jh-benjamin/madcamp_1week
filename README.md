@@ -16,7 +16,7 @@
 ## Details about Tech
 
 ### Tab1 (HomeFragment)
----
+
 - 22대 국회의원 정보 리스트를 확인할 수 있어요.
 - 이름 혹은 정당을 통해 검색할 수 있어요.
     - SearchView를 활용하여 구현했어요.
@@ -33,7 +33,7 @@
     - json 파일에서 데이터를 불러와 dialog로 띄웠어요.
 
 ### Tab2 (DashboardFragment, GalleryAdapter)
----
+
 - 22대 모든 국회의원 사진을 한번에 볼 수 있어요.
     - RectclerView를 통해 국회의원의 이미지를 띄웠어요.
     - 국회의원 이미지는 Glide를 통해 인터넷에서 불러와요.
@@ -43,7 +43,7 @@
     - json 파일에서 데이터를 불러와 dialog로 띄웠어요.
 
 ### Tab3 (NotificationsFragment, PartyInfoAdapter)
----
+
 - 현재 및 과거의 정당별 의석 수를 확인할 수 있어요.
     - Spinner를 활용해 22대, 21대, 20대를 선택할 수 있게 구현했어요.
     - PartyInfoAdapter 클래스를 만들어 역대 국회의 정당과 그 의석 수를 받아오게 구현했어요.
@@ -51,7 +51,7 @@
     - Animation을 통해 왼쪽에서 원이 그려지는 느낌이 나게 구현했어요.
 
 ### Etc…
----
+
 - 하단바나 양 옆 스와이핑으로 화면을 전환할 수 있어요. (MainActivity)
     - BottomNavigationView와 ViewPager를 활용해서 구현했어요.
     - BottomNavigationView와 ViewPager가 변할 때마다 서로를 동기화하여 화면 전환 오류를 없앴어요.
@@ -61,6 +61,7 @@
     - Animation 기능을 추가하여 자연스럽게 BottomNavigationView가 사라지고 나타나게 구현했어요.
 
 ### Contributers
----
+
 @jh-benjamin
-@
+
+@yoon0701
