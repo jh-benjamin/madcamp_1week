@@ -59,3 +59,8 @@
     - RecyclerView의 스크롤 이벤트를 감지하는 기능을 사용했어요.
     - 아래로 스크롤하면 BottomNavigationView를 가리고, 위로 올리면 다시 보이도록 설정했어요.
     - Animation 기능을 추가하여 자연스럽게 BottomNavigationView가 사라지고 나타나게 구현했어요.
+
+### Contributers
+---
+@jh-benjamin
+@
