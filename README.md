@@ -9,7 +9,9 @@
 ### Tech Stack
 ---
 **Front-end** : Kotlin
+
 **IDE** : Android Studio
+
 ## Details about Tech
 
 ### Tab1 (HomeFragment)
